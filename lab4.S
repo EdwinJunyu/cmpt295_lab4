@@ -29,3 +29,20 @@ prime:
     # return 1
     mov $1, %rax
     ret
+
+
+.global largest_power_unsigned
+
+largest_power_unsigned:
+    mov $1, %rax
+
+loop:
+    mov %rax, %rcx
+    mul %rdi
+
+    jc overflow
+    jmp loop
+
+overflow:
+    mov %rcx, %rax
+    ret
