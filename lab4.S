@@ -62,3 +62,44 @@ overflowing_subtract:
 overflow:
     mov $0, %rax
     ret
+
+.global dumb
+
+dumb:
+    cmp $0, %rdi
+    je a_zero
+
+    cmp $0, %rsi
+    je b_zero
+
+    # Save original a and b.
+    push %rdi
+    push %rsi
+    # 8 bytes -> 16-byte alignment
+    sub $8, %rsp
+
+    sub $1, %rdi
+    sub $1, %rsi
+
+    call dumb
+
+    # Undo alignment adjustment.
+    add $8, %rsp
+
+    pop %rsi
+    pop %rdi
+
+    add %rdi, %rax
+    add %rdi, %rax
+    add %rsi, %rax
+
+    ret
+
+a_zero:
+    mov %rsi, %rax
+    add $1, %rax
+    ret
+
+b_zero:
+    mov %rdi, %rax
+    ret
