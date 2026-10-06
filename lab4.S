@@ -46,3 +46,19 @@ loop:
 overflow:
     mov %rcx, %rax
     ret
+
+.global overflowing_subtract
+
+overflowing_subtract:
+    # a is in %rdi
+    # b is in %rsi
+    mov %rdi, %rax
+    sub %rsi, %rax
+
+    jo overflow
+
+    ret
+
+overflow:
+    mov $0, %rax
+    ret
